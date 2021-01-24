@@ -30,6 +30,7 @@ check_handshake() {
 }
 
 #Set Debug SSID
+# seems ffmuc specific
 if [ $(uci get gluon.debug_ssid_enabled 2>/dev/null||echo false) = 'true' ] ; then
 	suffix="$(uci get network.bat0.macaddr)"
 	if ! grep -q "dev.ffmuc.net/$suffix" /etc/config/wireless ; then
@@ -84,9 +85,10 @@ if [ "$(uci get wireguard.mesh_vpn.enabled)" == "true" ] || [ "$(uci get wiregua
 		ip link del $MESH_VPN_IFACE &> /dev/null
 		PUBLICKEY=$(uci get wireguard.mesh_vpn.privatekey | wg pubkey)
 		SEGMENT=$(uci get gluon.core.domain)
+		BROKER_URL=$(uci get wireguard.mesh_vpn.brokerurl)
 
 		# Push public key to broker
-		gluon-wan wget -q  -O- --post-data='{"domain": "'"$SEGMENT"'","public_key": "'"$PUBLICKEY"'"}' http://broker.ffmuc.net/api/v1/wg/key/exchange
+		gluon-wan wget -q  -O- --post-data='{"domain": "'"$SEGMENT"'","public_key": "'"$PUBLICKEY"'"}' $BROKER_URL
 
 		# Bring up the wireguard interface
 		ip link add dev $MESH_VPN_IFACE type wireguard
