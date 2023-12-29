@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: Florian Maurer (FFAC)
+
+SPDX-License-Identifier: BSD-2-Clause
+-->
+
 # ffac-change-autoupdater
 
 Change the autoupdater branch after on upgrade.

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: Florian Maurer (FFAC)
+
+SPDX-License-Identifier: GPL-2.0-or-later
+-->
+
 # Gluon community repository
 
 During the last bimonthly review-day, the Gluon community repository was created. Previously, many attempts to upstream community packages were either stuck for a very long time in the review process or died down completely.

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: Maciej Krüger <maciej@xeredo.it>
+
+SPDX-License-Identifier: MIT
+-->
+
 # DDHCPD BATMAN-ADV integration
 
 Integration of DDHCPD into batman-adv networks. The contained script

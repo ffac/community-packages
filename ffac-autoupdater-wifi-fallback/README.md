@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: kb-light, Patric Steffen, Andreas Ziegler, Florian Maurer
+
+SPDX-License-Identifier: BSD-2-Clause
+-->
+
 # ffac-autoupdater-wifi-fallback
 
 If a node has no connection to the mesh, neither via wlan-mesh nor via

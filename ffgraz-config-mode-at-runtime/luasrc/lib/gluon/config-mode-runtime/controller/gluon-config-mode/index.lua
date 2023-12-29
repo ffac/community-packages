@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: Maciej Krüger <maciej@xeredo.it>
+--
+-- SPDX-License-Identifier: MIT
+
 package 'ffgraz-config-mode-at-runtime'
 
 local classes = require 'gluon.web.model.classes'

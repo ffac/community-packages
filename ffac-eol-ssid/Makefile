@@ -1,7 +1,6 @@
-# SPDX-FileCopyrightText: 2023 Florian Maurer (FFAC), grische (FFMUC)
+# SPDX-FileCopyrightText: Julian Schuh and Simon Terzenbach, Florian Maurer (FFAC), grische (FFMUC)
+#
 # SPDX-License-Identifier: GPL-2.0-or-later
-# This package is based on https://gitlab.karlsruhe.freifunk.net/firmware/packages/-/tree/master/ffka-eol-ssid by Julian Schuh and Simon Terzenbach
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffac-eol-ssid

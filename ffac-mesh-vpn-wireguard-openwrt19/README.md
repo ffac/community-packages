@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: Florian Maurer (FFAC)
+
+SPDX-License-Identifier: GPL-2.0-or-later
+-->
+
 # ffac-mesh-vpn-wireguard-openwrt19
 
 You can use this package for connecting with wireguard to a upstream gluon-mesh-vpn-wireguard compatible network.

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# SPDX-FileCopyrightText: Maciej Krüger <maciej@xeredo.it>
+#
+# SPDX-License-Identifier: MIT
+
 set -euo pipefail
 
 gluon="$1"

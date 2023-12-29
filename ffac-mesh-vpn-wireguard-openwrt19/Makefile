@@ -1,5 +1,7 @@
-# SPDX-FileCopyrightText: 2023 Florian Maurer (FFAC), Annika Wickert (FFMUC)
+# SPDX-FileCopyrightText: Florian Maurer (FFAC), Annika Wickert (FFMUC), grische (FFMUC)
+#
 # SPDX-License-Identifier: GPL-2.0-or-later
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffac-mesh-vpn-wireguard-openwrt19

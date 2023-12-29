@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: Maciej Krüger <maciej@xeredo.it>
+
+SPDX-License-Identifier: MIT
+-->
+
 # ffgraz-config-mode-theme-funkfeuer
 
 Gluon config mode theme for gluon-web customized for funkfeuer

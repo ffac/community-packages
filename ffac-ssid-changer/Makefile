@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Malte Möller, Jens Viisauksena, Ruben Barkow, Andreas Ziegler, Sven Eckelmann, Andreas Dorfer and Florian Maurer
+# SPDX-FileCopyrightText: Malte Möller, Jens Viisauksena, Ruben Barkow, Andreas Ziegler, Sven Eckelmann, Andreas Dorfer and Florian Maurer
 # SPDX-License-Identifier: BSD-2-Clause
 include $(TOPDIR)/rules.mk
 

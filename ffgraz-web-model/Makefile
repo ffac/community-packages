@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: Maciej Krüger <maciej@xeredo.it>
+#
+# SPDX-License-Identifier: MIT
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffgraz-web-model

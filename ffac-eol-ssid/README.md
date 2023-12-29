@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: Florian Maurer (FFAC)
+
+SPDX-License-Identifier: GPL-2.0-or-later
+-->
+
 # ffac-eol-ssid
 
 This package changes the 2.4GHz SSID. It is used to show a deprecation warning in the SSID name for unsupported targets (end-of-life).

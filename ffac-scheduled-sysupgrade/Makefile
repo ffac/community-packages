@@ -1,5 +1,7 @@
-# SPDX-FileCopyrightText: 2023 Florian Maurer (FFAC)
-# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: Florian Maurer (FFAC)
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffac-scheduled-sysupgrade

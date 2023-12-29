@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: Maciej Krüger <maciej@xeredo.it>
+--
+-- SPDX-License-Identifier: MIT
+
 local util = require "gluon.util"
 local uci = require("simple-uci").cursor()
 

@@ -1,5 +1,6 @@
-# Copyright (C) 2021 Maciej Krüger <maciej at xeredo.it>
-# This is free software, licensed under the Apache 2.0 license.
+# SPDX-FileCopyrightText: Maciej Krüger <maciej@xeredo.it>
+#
+# SPDX-License-Identifier: MIT
 
 include $(TOPDIR)/rules.mk
 

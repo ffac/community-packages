@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: Maciej Krüger <maciej@xeredo.it>
+--
+-- SPDX-License-Identifier: MIT
+
 --[[
 Copyright 2022 Maciej Krüger <maciej@xeredo.it>
 

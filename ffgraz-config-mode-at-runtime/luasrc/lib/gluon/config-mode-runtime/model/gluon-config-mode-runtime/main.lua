@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: Maciej Krüger <maciej@xeredo.it>
+--
+-- SPDX-License-Identifier: MIT
+
 local f = Element("runtime/main", {}, 'main')
 f.template = "runtime/main"
 f.package = "ffgraz-config-mode-at-runtime"

@@ -1,4 +1,9 @@
 #!/usr/bin/lua
+
+-- SPDX-FileCopyrightText: kb-light, Patric Steffen, Andreas Ziegler, Florian Maurer
+--
+-- SPDX-License-Identifier: BSD-2-Clause
+
 local uci = require('simple-uci').cursor()
 local iwinfo = require 'iwinfo'
 local log = require 'posix.syslog'

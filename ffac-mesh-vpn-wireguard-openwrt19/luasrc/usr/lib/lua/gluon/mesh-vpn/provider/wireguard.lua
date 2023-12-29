@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: Florian Maurer (FFAC), Annika Wickert (FFMUC)
+--
+-- SPDX-License-Identifier: GPL-2.0-or-later
+
 local uci = require('simple-uci').cursor()
 
 local site = require 'gluon.site'

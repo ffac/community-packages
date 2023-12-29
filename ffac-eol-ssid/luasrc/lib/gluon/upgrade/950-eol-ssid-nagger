@@ -1,4 +1,7 @@
 #!/usr/bin/lua
+-- SPDX-FileCopyrightText: Florian Maurer (FFAC)
+--
+-- SPDX-License-Identifier: GPL-2.0-or-later
 
 local site = require 'gluon.site'
 local uci = require('simple-uci').cursor()

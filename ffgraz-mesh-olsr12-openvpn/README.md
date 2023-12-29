@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: Maciej Krüger <maciej@xeredo.it>
+
+SPDX-License-Identifier: MIT
+-->
+
 # ffgraz-mesh-olsr12-openvpn
 
 This package is used to allow a seamless olsr2 migration

@@ -1,5 +1,8 @@
 # SPDX-FileCopyrightText: 2023 kb-light, Patric Steffen, Andreas Ziegler, Florian Maurer
+# SPDX-FileCopyrightText: kb-light, Patric Steffen, Andreas Ziegler, Florian Maurer
+#
 # SPDX-License-Identifier: BSD-2-Clause
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ffac-autoupdater-wifi-fallback
