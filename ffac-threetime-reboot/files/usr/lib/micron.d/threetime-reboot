@@ -1,0 +1,2 @@
+# reboot device three times a day on 7:00, 14:00 and 21:00
+00 7,14,21 * * * /lib/gluon/threetime-reboot/threetime-reboot.sh
