@@ -13,7 +13,7 @@ include $(TOPDIR)/../package/gluon.mk
 
 define Package/$(PKG_NAME)
   TITLE:=Implements switching to fallback mode if we are cut off from the mesh
-  DEPENDS:=+gluon-autoupdater +gluon-site +gluon-state-check +iw +libgluonutil +libiwinfo-lua +luabitop +luaposix +micrond +wpa-supplicant-mini
+  DEPENDS:=+gluon-autoupdater +gluon-site +gluon-state-check +iw +libgluonutil +libiwinfo-lua +luabitop +luaposix +micrond +!(PACKAGE_wpa-supplicant||PACKAGE_wpa-supplicant-mesh):wpa-supplicant-mini
   MAINTAINER:=Freifunk Aachen <kontakt@freifunk-aachen.de>
 endef
 
