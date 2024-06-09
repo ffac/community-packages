@@ -198,7 +198,7 @@ elif [ "$CHECK" -eq 0 ]; then
 					logger -s -t "ffac-ssid-changer" -p 5 "could not set to offline state: did neither find SSID '$ONLINE_SSID' nor '$OFFLINE_SSID'. Please reboot"
 				fi
 				if [ "$OWE" = true ]; then
-					CURRENT_SSID_OWE="$(grep "^ssid=$OFFLINE_SSID_OWE" "$HOSTAPD" | cut -d"=" -f2)"
+					CURRENT_SSID_OWE="$(grep "^ssid=$ONLINE_SSID_OWE" "$HOSTAPD" | cut -d"=" -f2)"
 					if [ "$CURRENT_SSID_OWE" = "$ONLINE_SSID_OWE" ]; then
 						# set offline
 						logger -s -t "ffac-ssid-changer" -p 5 "$MSG""$OFF_COUNT times offline, SSID is $CURRENT_SSID_OWE, change to $OFFLINE_SSID_OWE"
@@ -216,8 +216,9 @@ elif [ "$CHECK" -eq 0 ]; then
 fi
 
 if [ $HUP_NEEDED = 1 ]; then
-	# send HUP to all hostapd to load the new SSID
-	killall -HUP hostapd
+	# HUP does not work with openwrt-23.05 somehow, use ubus reload
+	# to load the new SSID
+	ubus call hostapd reload
 	## check for nonmatching hostapd-pidfiles
 	if [ -f /lib/gluon/eulenfunk-hotfix/check_hostapd.sh ] ; then
 	   sleep 2 # settle down
