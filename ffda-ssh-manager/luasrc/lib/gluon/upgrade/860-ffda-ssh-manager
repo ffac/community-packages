@@ -106,8 +106,8 @@ end
 
 -- Set site defined defaults if not yet defined
 local function site_defaults()
-	local site_default_enabled = site.ssh_manager.default.enabled()
-	local site_default_groups = site.ssh_manager.default.groups()
+	local site_default_enabled = site.ssh_manager.defaults.enabled()
+	local site_default_groups = site.ssh_manager.defaults.groups()
 
 	-- Only set defaults if not already configured
 	if manager_configured() then
@@ -120,9 +120,7 @@ local function site_defaults()
 	-- Only set groups if defined in site
 	if site_default_groups ~= nil then
 		-- Set groups
-		for _, group in pairs(site_default_groups) do
-			uci:add_list(uci_package, uci_section, uci_key_groups, group)
-		end
+		uci:set_list(uci_package, uci_section, uci_key_groups, site_default_groups)
 	end
 
 	uci:commit(uci_package)

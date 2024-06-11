@@ -19,7 +19,7 @@ SETTINGS_DEBUG_LOGGING="$(uci -q get ssid-changer.settings.debug_log_enabled)"
 pgrep -f autoupdater >/dev/null && safety_exit 'autoupdater running'
 UT=$(sed 's/\..*//g' /proc/uptime)
 [ "$UT" -gt 60 ] || safety_exit 'less than one minute'
-[ "$(find /var/run -name "hostapd-phy*" | wc -l)" -gt 0 ] || safety_exit 'no hostapd-phy*'
+[ "$(find /var/run -name "hostapd-*" | wc -l)" -gt 0 ] || safety_exit 'no hostapd-*'
 
 # only once every timeframe minutes the SSID will change to the Offline-SSID
 # (set to 1 minute to change immediately every time the router gets offline)
@@ -86,9 +86,9 @@ if [ ! -f $TMP ]; then echo "0">$TMP; fi
 OFF_COUNT=$(cat $TMP)
 
 TQ_LIMIT_ENABLED="$(uci -q get ssid-changer.settings.tq_limit_enabled)"
-# if true, the offline ssid will only be set if there is no gateway reacheable
+# if true, the offline ssid will only be set if there is no gateway reachable
 # upper and lower limit to turn the offline_ssid on and off
-# in-between these two values the SSID will never be changed to preven it from toggeling every Minute.
+# in-between these two values the SSID will never be changed to prevent it from toggling every Minute.
 : "${TQ_LIMIT_ENABLED:=0}"
 
 if [ "$TQ_LIMIT_ENABLED" = 1 ]; then
@@ -111,7 +111,7 @@ if [ "$TQ_LIMIT_ENABLED" = 1 ]; then
 	elif [ "$GATEWAY_TQ" -lt "$TQ_LIMIT_MIN" ]; then
 		CHECK=0
 	else
-		# this is just get a clean run if we are in-between the grace periode
+		# this is just get a clean run if we are in-between the grace period
 		log_debug "TQ is $GATEWAY_TQ, do nothing"
 		exit 0
 	fi
@@ -132,8 +132,9 @@ if [ "$CHECK" -gt 0 ] || [ "$DISABLED" = '1' ]; then
 	log_debug "node is online"
 	LOOP=1
 	# check status for all physical devices
-	for HOSTAPD in /var/run/hostapd-phy*; do
-		[ -e "$HOSTAPD" ] || break  # handle the case of no hostapd-phy* files
+	for HOSTAPD in /var/run/hostapd-*.conf; do
+		[ -e "$HOSTAPD" ] || break  # handle the case of no hostapd-* files
+		grep "^bridge=br-client" "$HOSTAPD" > /dev/null || break # handle case of private wifi
 		# shellcheck disable=SC2086 # ONLINE_SSIDs has multiple lines
 		ONLINE_SSID="$(echo $ONLINE_SSIDs | awk -F '~' -v l=$((LOOP*2)) '{print $l}')"
 		LOOP=$((LOOP+1))
@@ -178,8 +179,9 @@ elif [ "$CHECK" -eq 0 ]; then
 		if [ "$OFF_COUNT" -ge $((T / 2)) ]; then
 			# node was offline more times than half of switch_timeframe (or than $FIRST)
 			LOOP=1
-			for HOSTAPD in /var/run/hostapd-phy*; do
-				[ -e "$HOSTAPD" ] || break  # handle the case of no hostapd-phy* files
+			for HOSTAPD in /var/run/hostapd-*.conf; do
+				[ -e "$HOSTAPD" ] || break  # handle the case of no hostapd-* files
+				grep "^bridge=br-client" "$HOSTAPD" || break # handle case of private wifi
 				# shellcheck disable=SC2086 # ONLINE_SSIDs has multiple lines
 				ONLINE_SSID="$(echo $ONLINE_SSIDs | awk -F '~' -v l=$((LOOP*2)) '{print $l}')"
 				LOOP=$((LOOP+1))
@@ -198,7 +200,7 @@ elif [ "$CHECK" -eq 0 ]; then
 					logger -s -t "ffac-ssid-changer" -p 5 "could not set to offline state: did neither find SSID '$ONLINE_SSID' nor '$OFFLINE_SSID'. Please reboot"
 				fi
 				if [ "$OWE" = true ]; then
-					CURRENT_SSID_OWE="$(grep "^ssid=$OFFLINE_SSID_OWE" "$HOSTAPD" | cut -d"=" -f2)"
+					CURRENT_SSID_OWE="$(grep "^ssid=$ONLINE_SSID_OWE" "$HOSTAPD" | cut -d"=" -f2)"
 					if [ "$CURRENT_SSID_OWE" = "$ONLINE_SSID_OWE" ]; then
 						# set offline
 						logger -s -t "ffac-ssid-changer" -p 5 "$MSG""$OFF_COUNT times offline, SSID is $CURRENT_SSID_OWE, change to $OFFLINE_SSID_OWE"
@@ -216,9 +218,10 @@ elif [ "$CHECK" -eq 0 ]; then
 fi
 
 if [ $HUP_NEEDED = 1 ]; then
-	# send HUP to all hostapd to load the new SSID
-	killall -HUP hostapd
-	## check for nonmachting hotapd-pidfiles
+	# HUP does not work with openwrt-23.05 somehow, use ubus reload
+	# to load the new SSID
+	ubus call hostapd reload
+	## check for nonmatching hostapd-pidfiles
 	if [ -f /lib/gluon/eulenfunk-hotfix/check_hostapd.sh ] ; then
 	   sleep 2 # settle down
 	   # shellcheck disable=SC2009
