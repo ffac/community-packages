@@ -148,7 +148,7 @@ if [ "$GWCONNECTION" -eq 0 ]; then
 	fi
 fi
 
-if [ $(cat /sys/kernel/debug/ieee80211/phy*/mt76/rf_regval > /dev/null;) ]; then
+if ! cat /sys/kernel/debug/ieee80211/phy*/mt76/rf_regval > /dev/null; then
 	# https://github.com/freifunk-gluon/gluon/issues/3154#issuecomment-2125452973
     logger -p 0 -t "$SCRIPTNAME" "wifi seems crashed; reloading driver"; 
 	# delete old hostapd files, as they are not needed anymore
