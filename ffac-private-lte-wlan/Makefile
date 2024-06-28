@@ -24,18 +24,16 @@ endef
 
 
 define Build/Compile
-	$(call Gluon/Build/Compile)
-	./gluonShellDiet.sh files/etc/ipv4-dhcp-nat.sh > $(PKG_BUILD_DIR)/ipv4-dhcp-nat.sh
-  ./gluonShellDiet.sh files/etc/ipv6-dyn-radvd.sh > $(PKG_BUILD_DIR)/ipv6-dyn-radvd.sh
-  ./gluonShellDiet.sh MOVE_uradvd-dyn.sh > $(PKG_BUILD_DIR)/MOVE_uradvd-dyn.sh
+    $(call Gluon/Build/Compile)
+    ./gluonShellDiet.sh files/etc/ipv4-dhcp-nat.sh > $(PKG_BUILD_DIR)/ipv4-dhcp-nat.sh
+    ./gluonShellDiet.sh files/etc/MOVE_ipv6-dyn-radvd.sh > $(PKG_BUILD_DIR)/MOVE_ipv6-dyn-radvd.sh
 endef
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/bin
+    $(INSTALL_DIR) $(1)/usr/bin
 
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ipv4-dhcp-nat.sh $(1)/usr/bin/
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ipv6-dyn-radvd.sh $(1)/usr/bin/
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/MOVE_uradvd-dyn.sh $(1)/etc/hotplug.d/iface/40-update-radvd
+    $(INSTALL_BIN) $(PKG_BUILD_DIR)/ipv4-dhcp-nat.sh $(1)/usr/bin/
+    $(INSTALL_BIN) $(PKG_BUILD_DIR)/MOVE_ipv6-dyn-radvd.sh $(1)/etc/hotplug.d/iface/40-update-radvd
 endef
 
 
