@@ -22,4 +22,4 @@ fi
 } > $URA_ADV_CONF
 
 # uradvd neu starten
-/etc/init.d/uradvd Restart
+/etc/init.d/uradvd restart
