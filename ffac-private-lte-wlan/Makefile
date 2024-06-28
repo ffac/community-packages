@@ -35,7 +35,7 @@ define Package/$(PKG_NAME)/install
 
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ipv4-dhcp-nat.sh $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ipv6-dyn-radvd.sh $(1)/usr/bin/
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/MOVE_uradvd-dyn.sh $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/MOVE_uradvd-dyn.sh $(1)/etc/hotplug.d/iface/40-update-radvd
 endef
 
 
