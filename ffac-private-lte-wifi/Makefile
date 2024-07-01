@@ -22,17 +22,4 @@ define Package/$(PKG_NAME)/description
   directed through the LTE connection, providing an uninterrupted and low-latency internet experience.
 endef
 
-
-define Build/Compile
-    $(call Gluon/Build/Compile)
-endef
-
-define Package/$(PKG_NAME)/install
-    $(INSTALL_DIR) $(1)/usr/bin
-
-    $(INSTALL_BIN) $(PKG_BUILD_DIR)/ipv4-dhcp-nat.lua $(1)/usr/bin/
-    $(INSTALL_BIN) $(PKG_BUILD_DIR)/MOVE_ipv6-dyn-radvd.lua $(1)/etc/hotplug.d/iface/40-update-radvd
-endef
-
-
 $(eval $(call BuildPackageGluon,$(PKG_NAME)))
