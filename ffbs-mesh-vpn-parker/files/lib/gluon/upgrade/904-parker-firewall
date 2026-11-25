@@ -92,10 +92,26 @@ uci set firewall.vpn_parker_http.name='vpn_parker_ssh'
 uci set firewall.vpn_parker_http.target='ACCEPT'
 uci set firewall.vpn_parker_http.proto='tcp'
 
-# skip wan table rules created by netifd with prio 20000
-uci set network.wan_skip=rule
-uci set network.wan_skip.priority=15000
-uci set network.wan_skip.lookup=main
-uci set network.wan6_skip=rule6
-uci set network.wan6_skip.priority=15000
-uci set network.wan6_skip.lookup=main
+# Policy routing in front of netifd's rules for the wan tables (table 1,
+# prio 20000: "to <wan subnet> lookup 1"). These rules also apply to
+# forwarded packets, and a routing node forwards its clients: a client
+# could be routed into the WAN, and a WAN subnet that overlaps the
+# Freifunk ranges would take their traffic.
+#
+# 15000: the specific routes of the main table (client network, wg peers)
+#        always win, but not its default route.
+# 16000: forwarded traffic follows the main table (tunnel, or the mesh in
+#        mesh-only mode). The node's own traffic continues to netifd's
+#        rules, so the node still reaches the hosts in its WAN subnets.
+for family in '' 6; do
+	uci set network.wan${family}_skip=rule${family}
+	uci set network.wan${family}_skip.priority=15000
+	uci set network.wan${family}_skip.lookup=main
+	uci set network.wan${family}_skip.suppress_prefixlength=0
+
+	uci set network.wan${family}_forward=rule${family}
+	uci set network.wan${family}_forward.priority=16000
+	uci set network.wan${family}_forward.in=loopback
+	uci set network.wan${family}_forward.invert=1
+	uci set network.wan${family}_forward.lookup=main
+done
