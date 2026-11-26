@@ -55,6 +55,12 @@ local NAT64_PREFIX = "64:ff9b::/96"
 local NETWORK_TIMEOUT = 60
 local SERVICES_TIMEOUT = 20
 
+-- Priority of the rule that sends the node's own IPv4 traffic out through
+-- the WAN table, see set_local_wan4(). It sits behind the rules of
+-- 904-parker-firewall (15000, 16000), so the specific routes of the main
+-- table still win and forwarded client traffic never reaches it.
+local LOCAL_WAN4_PRIORITY = "17000"
+
 util.loggername = "noderoute.lua"
 
 local function dump(foo)
@@ -583,7 +589,42 @@ local function apply_network(conf, target_state, mtu)
 	return true
 end
 
+local function set_local_wan4()
+	-- A classic Gluon node has no IPv4 default route in the main table, so
+	-- its own IPv4 traffic falls through to Gluon's "iif lo lookup 1" rule
+	-- and leaves through the WAN. Our tunnel default route in the main table
+	-- would catch it first, so the node could reach neither the hosts behind
+	-- its uplink router nor the Internet directly. Send it to the WAN table
+	-- while that table has an IPv4 default route. Without one (no WAN, an
+	-- IPv6-only uplink) the table ends in an unreachable route, which would
+	-- not fall back to the main table, so the rule goes again.
+	local wan_default = false
+	for line in string.gmatch(util.check_output("ip -4 route show table 1"), "[^\n]+") do
+		if line:find("^default via") then
+			wan_default = true
+			break
+		end
+	end
+	local present = false
+	for line in string.gmatch(util.check_output("ip -4 rule"), "[^\n]+") do
+		if line:find("^" .. LOCAL_WAN4_PRIORITY .. ":") then
+			present = true
+			break
+		end
+	end
+	if wan_default and not present then
+		os.execute("ip -4 rule add iif lo lookup 1 priority " .. LOCAL_WAN4_PRIORITY)
+		util.log("Sending the node's own IPv4 traffic through the WAN")
+	elseif not wan_default and present then
+		os.execute("ip -4 rule del priority " .. LOCAL_WAN4_PRIORITY)
+		util.log("No IPv4 default route in the WAN table. Own IPv4 traffic follows the main table again")
+	end
+end
+
 local function update(report)
+	-- Independent of uci and of the tunnels, so before the checks below.
+	set_local_wan4()
+
 	-- if there already are changes in uci, abort
 	if sections_changed() then
 		util.log("UCI is dirty. Refusing to reconfigure node.")
